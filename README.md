@@ -6,11 +6,11 @@
 
 ## Overview
 
-This project implements a **PID control** algorithm to control the steering while driving a simulated vehicle around a track using feedback on the measured lateral **Cross-Track Error (CTE)**.
+This project implements a **PID control** algorithm in C++ to control the steering while driving a simulated vehicle around a track using feedback on the measured lateral **Cross-Track Error (CTE)**.
 
-Besides the basic Proportional/Integral/Derivative error terms, the PID controller includes some **additional features** such as an integral windup min/max guard, D term latching, smoothing, and min/max guard to prevent spikes from CTE discontinuities, and rate limiting on final output to smooth out the steering movement.
+Besides implementing the basic **Proportional/Integral/Derivative error terms**, the PID controller includes some **additional features** such as an integral windup min/max guard, D term latching, smoothing, and min/max guard to prevent spikes from CTE discontinuities, and rate limiting on final output to smooth out the steering movement.
 
-The PID control gains were **initially tuned manually** for various speeds to explore their effects.  After base gains were chosen at the reference speed (30% throttle), further tuning adjustment was done automatically using a **"twiddle" algorithm (coordinate ascent)** to optimize an error function based on combining accumulated CTE and steering work.
+The PID control gains were **initially tuned manually** to explore their effects.  After base gains were chosen at the reference speed (30% throttle), further tuning adjustment was done automatically using a **"twiddle" (coordinate ascent) algorithm** to optimize an error function based on combining accumulated CTE and steering work.
 
 ## Project Reflection
 
@@ -23,7 +23,7 @@ For more details about the results of this tuning activity, see the [project ref
 | /src/main.cpp     | Source code for **main loop** that handles **uWebSockets communication to simulator**                          |
 | /src/PID.cpp, .h  | Source code for **PID control algorithm** that controls the steering value based on feedback from measured CTE |
 | /build/pid        | Output **executable program binary**                                                                           |
-| Reflection.md     | **Reflection document** describing the PID gain tuning activity                                                |
+| [Reflection.md](Reflection.md)     | **Reflection document** describing the PID gain tuning activity                                                |
 | install-mac.sh    | Script for Mac to install uWebSocketIO required to interface with simulator                                    |
 | install-ubuntu.sh | Script for Linux to install uWebSocketIO required to interface with simulator                                  |
 

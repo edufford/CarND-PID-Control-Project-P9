@@ -8,13 +8,13 @@
 
 PID (Proportional, Integral, Derivative) controllers are one of the **simplest types of feedback controller** to implement, but can sometimes be very **difficult to tune for good stable performance in all conditions**, especially for controlling something like the position of a vehicle by its steering wheel.
 
-Controlling a vehicle's steering angle directly with feedback from lateral Cross-Track Error (CTE) measurements without any feed-forward or look-ahead component is **like trying to drive while looking straight down at the ground** beneath the vehicle.  Also, the controller is affecting the **yaw angle of the vehicle to indirectly adjust the lateral position** without any way to properly counter-steer to keep the vehicle's yaw aligned with the road once the CTE is minimized.
+Controlling a vehicle's steering angle directly with feedback from lateral Cross-Track Error (CTE) measurements without any feed-forward or look-ahead component is **like trying to drive while looking straight down at the ground** beneath the vehicle.  Also, the controller affects the **yaw angle of the vehicle to indirectly adjust the lateral position** without any way to plan proper counter-steering to keep the vehicle's yaw aligned with the road once the CTE is minimized.
 
-This means that tuning these PID gains will always have some **oscillation or overshoot** which will become more severe as the vehicle's speed increases, so **this kind of PID control application is not really suited for controlling the steering of a vehicle** like this, but can be useful as an exercise to explore the P, I, and D component effects in general.
+This means that tuning these PID gains will always have some **oscillation or overshoot** which will become more severe as the vehicle's speed increases, so **this kind of PID control application is not really well-suited for controlling the steering of a vehicle**, but can be useful as an exercise to explore the P, I, and D component effects in general.
 
 ### P Control
 
-Due to the inherent instabilities of steering angle feedback from CTE mentioned above, using only Proportional control is **not feasible** because the vehicle will **constantly overshoot and oscillate no matter what value of P gain is used**.  In order to stabilize the control, the Derivative component must also be used to counter-steer as the error is decreasing but before crossing over zero.
+Due to the inherent instabilities of steering angle feedback from CTE mentioned above, using only Proportional control is **not feasible** because the vehicle will **constantly overshoot and oscillate no matter what value of P gain is used**.  In order to stabilize the control, the Derivative component must also be used to do some counter-steering as the error is decreasing but before crossing over zero to reduce the lateral overshoot.
 
 ### PD Control
 
@@ -28,7 +28,7 @@ From Fig.1 above, there are some **noise spikes in the steering angle** that com
 
 ### PD Control with Filters
 
-To improve the control smoothness, some filters were implemented including:
+To improve the control smoothness and robustness to noise, some filters were implemented including:
 
 1. D term max guard
 2. D term smoothing by an [exponential smoothing factor](https://en.wikipedia.org/wiki/Exponential_smoothing)
@@ -50,7 +50,7 @@ The filters improved the noise spikes in steering and D error term while still m
 
 ### PID Control
 
-To tune the PID controller, I kept the P and D gains from the PD controller and simply started **adding I gain until the CTE offset was eliminated** overall without causing additional oscillations and overshoots.  The results are shown in Fig. 3 below.
+To tune the PID controller, I kept the P and D gains from the PD controller and simply started **adding I gain until the CTE offset was eliminated overall** without causing additional oscillations and overshoots.  The results are shown in Fig. 3 below.
 
 <img src="./images/03_PID.png" width="900">
 
@@ -66,7 +66,7 @@ The twiddle algorithm automatically runs repeated simulations to test if adjusti
 
 To implement this, the **initial gains** were set as the base PID controller gains discussed previously, and the **initial deltas** were set to be half of the magnitudes of each gain.  The **error function** was set as the **accumulation of CTE plus the accumulation of steering angle**.  This combination tries to minimize the overall CTE while also penalizing busy steering work.
 
-After twiddling, the P gain reduced from 0.1 to ~0.08, the I gain reduced from 0.001 to ~0.0007, and the D gain increased from 2.0 to 3.0.  The result of this controller's driving is shown in Fig.4 below.
+After twiddling, the P gain reduced from 0.1 to 0.084271, the I gain reduced from 0.001 to 0.000690, and the D gain increased from 2.0 to 3.00000.  The final result of this controller's driving is shown in Fig.4 below.
 
 <img src="./images/04_PID_twiddled.png" width="900">
 
