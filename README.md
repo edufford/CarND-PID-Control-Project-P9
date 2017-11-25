@@ -16,6 +16,8 @@ The PID control gains were **initially tuned manually** to explore their effects
 
 For more details about the results of this tuning activity, see the [project reflection document](Reflection.md).
 
+[<img src="./images/PID_video_screenshot.png" width="800">](https://vimeo.com/243358417)
+
 ## Key Files
 
 | File              | Description                                                                                                    |

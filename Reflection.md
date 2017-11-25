@@ -12,6 +12,8 @@ Controlling a vehicle's steering angle directly with feedback from lateral Cross
 
 This means that tuning these PID gains will always have some **oscillation or overshoot** which will become more severe as the vehicle's speed increases, so **this kind of PID control application is not really well-suited for controlling the steering of a vehicle**, but can be useful as an exercise to explore the P, I, and D component effects in general.
 
+[<img src="./images/PID_video_screenshot.png" width="800">](https://vimeo.com/243358417)
+
 ### P Control
 
 Due to the inherent instabilities of steering angle feedback from CTE mentioned above, using only Proportional control is **not feasible** because the vehicle will **constantly overshoot and oscillate no matter what value of P gain is used**.  In order to stabilize the control, the Derivative component must also be used to do some counter-steering as the error is decreasing but before crossing over zero to reduce the lateral overshoot.
